@@ -4,8 +4,8 @@
 char* toLowerCase(char* str)
 {
     int i;
-
-	char* converted = (char*)MALLOC(sizeof(char)*strlen(str));
+	int size = strlen(str);
+	char* converted = (char*)MALLOC(sizeof(char)*(size+1));
 
     for (i = 0; i < strlen(str); i++)
     {
@@ -14,7 +14,7 @@ char* toLowerCase(char* str)
         else
             converted[i] =  str[i];
 
-		converted[strlen(str)] = '\0';
+		converted[size] = '\0';
     }
 
 	return converted;

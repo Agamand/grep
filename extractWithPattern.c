@@ -71,15 +71,15 @@ Maillon* extractWithPattern(Maillon* lines, char* pattern, short has_i, short ha
 			}
 			else
 			{
-					if(strstr_with(((FileLine*)(current_line->data))->line, pattern,has_i) == NULL)
-					{
-						addEnd(&containing_result, current_line->data);
-					}
-					else if((found = strstr_with(((FileLine*)(current_line->data))->line, pattern,has_i)) != NULL)
-					{
-							if(!isWholeWord(toLowerCase(((FileLine*)(current_line->data))->line), found, pattern))
-								addEnd(&containing_result, current_line->data);
-					}
+				if(strstr_with(((FileLine*)(current_line->data))->line, pattern,has_i) == NULL)
+				{
+					addEnd(&containing_result, current_line->data);
+				}
+				else if((found = strstr_with(((FileLine*)(current_line->data))->line, pattern,has_i)) != NULL)
+				{
+						if(!isWholeWord(toLowerCase(((FileLine*)(current_line->data))->line), found, pattern))
+							addEnd(&containing_result, current_line->data);
+				}
 			}
 
 			current_line = current_line->next;
