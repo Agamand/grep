@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "grep.h"
-
+#include "MemoryMgr/MemoryMgr.h"
 /*
     -- getArgs (function)
 
@@ -33,7 +33,7 @@ Arguments* getArgs(int argc, char** argv)
 
     FILE* pf = NULL;
 
-    Arguments *args = (Arguments*)malloc(sizeof(Arguments));
+    Arguments *args = (Arguments*)MALLOC(sizeof(Arguments));
     args->options = NULL;
     args->pattern = NULL;
     args->files = NULL;
@@ -116,7 +116,7 @@ Arguments* getArgs(int argc, char** argv)
                     {
                         if (strcmp(argv[i], optsSt[j]) == 0)
                         {
-                            addEnd(&(args->options), (save = malloc(sizeof(char))));
+                            addEnd(&(args->options), (save = MALLOC(sizeof(char))));
                             *(char*)save = opts[j];
                         }
                     }
@@ -138,12 +138,7 @@ Arguments* getArgs(int argc, char** argv)
         }
         else
         {
-            pf = fopen(argv[i], "rt");
-            if (pf != NULL)
-            {
-                addEnd(&(args->files), (void*)argv[i]);
-                fclose(pf);
-            }
+			addEnd(&(args->files), (void*)argv[i]);
         }
     }
 

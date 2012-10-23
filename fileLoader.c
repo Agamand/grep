@@ -1,5 +1,6 @@
 #include "grep.h"
-
+#include "dirsearch.h"
+#include "MemoryMgr/MemoryMgr.h"
 /**
 	--fileLoader
 		Load the content of a file and returns a linked list of its content
@@ -27,7 +28,7 @@ Maillon* fileLoader(char* filename)
 		int line_count = 1;
 		int i;
 		Maillon* lines = NULL;
-		FileLine* c_file_line = (FileLine*)malloc(sizeof(FileLine));
+		FileLine* c_file_line = (FileLine*)MALLOC(sizeof(FileLine));
 
 		while (fread(&c, sizeof(char), 1, ref_file), !feof(ref_file))
 			if(c == '\n')
@@ -43,7 +44,7 @@ Maillon* fileLoader(char* filename)
 				addCharToStr(&buffer, &buffer_size, c);
 			}
 
-			c_file_line = (FileLine*)malloc(sizeof(FileLine));
+			c_file_line = (FileLine*)MALLOC(sizeof(FileLine));
 			c_file_line->line = buffer;
 			c_file_line->line_index = i + 1;
 			c_file_line->path = filename;
@@ -71,6 +72,17 @@ Maillon* nFileLoader(Arguments* args)
 	Maillon* temp = NULL;
 	Maillon* inter = args->files;
 	Maillon* lines = NULL;
+
+	if(hasOption('R',args->options))
+	{
+		Maillon* files = NULL;
+		while(inter != NULL)
+		{
+			getFileFrom((char*)inter->data,&files);
+			inter = inter->next;
+		}
+		inter = files;
+	}
 
 	while(inter != NULL)
 	{

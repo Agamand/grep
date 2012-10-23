@@ -1,5 +1,5 @@
 #include "grep.h"
-
+#include "MemoryMgr/MemoryMgr.h"
 
 /*
 	Default egrep command
@@ -9,8 +9,12 @@ int eGrep(int argc, char** argv){
 	
 	Arguments* args = getArgs(argc, argv);
 
+	if(!args)
+		return 0;
+
 	if (args->files != NULL)
 	{
+		
 		Maillon* lines = nFileLoader(args);
 
 		if (lines != NULL)
@@ -29,6 +33,10 @@ int eGrep(int argc, char** argv){
 int main(int argc, char** argv)
 {
 	eGrep(argc, argv);
+#ifdef _DEBUG_
+	memorymgr_showMemLeak();
+	memorymgr_log();
+#endif
 	system("pause");
 	return 0;
 }

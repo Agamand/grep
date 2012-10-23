@@ -1,5 +1,5 @@
 #include <stdlib.h>
-
+#include "MemoryMgr/MemoryMgr.h"
 #include "linkedList.h"
 
 void freeList(Maillon** l)
@@ -10,7 +10,7 @@ void freeList(Maillon** l)
     while (inter != NULL)
     {
         forw = inter->next;
-        free(inter);
+        FREE(inter);
         if (forw != NULL)
             inter = forw->next;
     }

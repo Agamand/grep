@@ -1,10 +1,11 @@
 #include "grep.h"
+#include "MemoryMgr/MemoryMgr.h"
 
 char* toLowerCase(char* str)
 {
     int i;
 
-	char* converted = (char*)malloc(sizeof(char)*strlen(str));
+	char* converted = (char*)MALLOC(sizeof(char)*strlen(str));
 
     for (i = 0; i < strlen(str); i++)
     {

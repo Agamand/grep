@@ -1,13 +1,14 @@
 #include <stdlib.h>
 
 #include "linkedList.h"
+#include "MemoryMgr/MemoryMgr.h"
 
 void addFirst(Maillon** l, void* data)
 {
     Maillon* newMa;
         newMa = NULL;
 
-    newMa = (Maillon*)malloc(sizeof(Maillon));
+    newMa = (Maillon*)MALLOC(sizeof(Maillon));
     if (newMa == NULL)
         return;
 
@@ -23,7 +24,7 @@ void addEnd(Maillon** l, void* data)
 	Maillon* lastMaillon;
 		lastMaillon = *l;
 
-    newMa = (Maillon*)malloc(sizeof(Maillon));
+    newMa = (Maillon*)MALLOC(sizeof(Maillon));
     if (newMa == NULL)
         return;
 

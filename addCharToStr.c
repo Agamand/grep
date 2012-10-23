@@ -1,5 +1,5 @@
 #include "grep.h"
-
+#include "MemoryMgr/MemoryMgr.h"
 /**
 	--addCharToStr
 	Add the character (c), to the string (string) and updates its size (string_size)
@@ -17,18 +17,18 @@ void addCharToStr(char** string, int* string_size, char c)
 	if (*string_size == 0)
 	{
 		(*string_size) = 2;
-		*string = (char*)malloc(sizeof(char) * (*string_size));
+		*string = (char*)MALLOC(sizeof(char) * (*string_size));
 		(*string)[0] = c;
 		(*string)[1] = '\0';
 	}
 	else
 	{
 		int i;
-		char* temp = (char*)malloc(sizeof(char) * ((*string_size) - 1));
+		char* temp = (char*)MALLOC(sizeof(char) * ((*string_size) - 1));
 		for (i = 0; i < (*string_size) - 1; i++)
 		    temp[i] = (*string)[i];
 
-		char* newstring = (char*)malloc(sizeof(char) * ((*string_size) + 1));
+		char* newstring = (char*)MALLOC(sizeof(char) * ((*string_size) + 1));
 		for (i = 0; i < (*string_size) - 1; i++)
 		    newstring[i] = temp[i];
 		 newstring[(*string_size) - 1] = c;
