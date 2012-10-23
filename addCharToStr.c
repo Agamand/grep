@@ -34,7 +34,10 @@ void addCharToStr(char** string, int* string_size, char c)
 		 newstring[(*string_size) - 1] = c;
 		 newstring[*string_size] = '\0';
 		 
+		 char* old_string =*string;
 		 *string = newstring;
 		 (*string_size) += 1;
+		 FREE(old_string);
+		 FREE(temp);
 	}
 }

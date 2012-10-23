@@ -7,7 +7,7 @@ char* toLowerCase(char* str)
 	int size = strlen(str);
 	char* converted = (char*)MALLOC(sizeof(char)*(size+1));
 
-    for (i = 0; i < strlen(str); i++)
+    for (i = 0; i < size; i++)
     {
         if (str[i] > 64 && str[i] < 91)
             converted[i] = str[i] + 32;
