@@ -1,5 +1,5 @@
 #include "grep.h"
-
+#include "MemoryMgr/MemoryMgr.h"
 /**
 	--extractWithPattern
 		Search a string pattern in a list of strings
@@ -11,6 +11,24 @@
 	output: 
 		-containing_pattern(FileLine*) : linked list of Fileline containing each line(String) and its index(int) for each line containing the pattern
 **/
+
+char* strstr_with(char* _str, char* _substr ,short nocheckCase)
+{
+	if(nocheckCase)
+	{
+		char* str_low = toLowerCase(_str);
+		char* substr_low = toLowerCase(_substr);
+		char* result = strstr(str_low,substr_low);
+		FREE(str_low);
+		FREE(substr_low);
+		return result;
+	}
+	else
+	{
+		return strstr(_str,_substr);
+	}
+}
+
 Maillon* extractWithPattern(Maillon* lines, char* pattern, short has_i, short has_w, short has_v)
 {
 	Maillon* current_line;
@@ -22,37 +40,20 @@ Maillon* extractWithPattern(Maillon* lines, char* pattern, short has_i, short ha
 	{
 		while (current_line != NULL) 
 		{
-			if (!has_i)
-			{	
-				if(!has_w)
+			if(!has_w)
+			{
+				if(strstr_with(((FileLine*)(current_line->data))->line, pattern,has_i) != NULL)
 				{
-					if(strstr(((FileLine*)(current_line->data))->line, pattern) != NULL)
-					{
-						addEnd(&containing_result, current_line->data);
-					}
+					addEnd(&containing_result, current_line->data);
 				}
-				else
-					if((found = strstr(((FileLine*)(current_line->data))->line, pattern)) != NULL)
-					{
-						if(isWholeWord(((FileLine*)(current_line->data))->line, found, pattern))
-								addEnd(&containing_result, current_line->data);
-					}
 			}
 			else
 			{
-				if(!has_w)
+				if((found = strstr_with(((FileLine*)(current_line->data))->line, pattern,has_i)) != NULL)
 				{
-					if(strstr(toLowerCase(((FileLine*)(current_line->data))->line), toLowerCase(pattern)) != NULL)
-					{
-						addEnd(&containing_result, current_line->data);
-					}
-				}
-				else
-					if((found = strstr(toLowerCase(((FileLine*)(current_line->data))->line), toLowerCase(pattern))) != NULL)
-					{
-						if(isWholeWord(toLowerCase(((FileLine*)(current_line->data))->line), found, pattern))
+					if(isWholeWord(((FileLine*)(current_line->data))->line, found, pattern))
 							addEnd(&containing_result, current_line->data);
-					}
+				}
 			}
 			current_line = current_line->next;
 		}
@@ -62,49 +63,23 @@ Maillon* extractWithPattern(Maillon* lines, char* pattern, short has_i, short ha
 		while (current_line != NULL) 
 		{
 			if(!has_w)
-			{
-				if (!has_i)
-				{	
-					if(strstr(((FileLine*)(current_line->data))->line, pattern) == NULL)
-					{
-						addEnd(&containing_result, current_line->data);
-					}
-				}
-				else
+			{	
+				if(strstr_with(((FileLine*)(current_line->data))->line, pattern,has_i) == NULL)
 				{
-					if(strstr(toLowerCase(((FileLine*)(current_line->data))->line), toLowerCase(pattern)) == NULL)
-					{
-						addEnd(&containing_result, current_line->data);
-					}
+					addEnd(&containing_result, current_line->data);
 				}
 			}
 			else
 			{
-				if (!has_i)
-				{	
-
-					if(strstr(((FileLine*)(current_line->data))->line, pattern) == NULL)
+					if(strstr_with(((FileLine*)(current_line->data))->line, pattern,has_i) == NULL)
 					{
 						addEnd(&containing_result, current_line->data);
 					}
-					else if(strstr(((FileLine*)(current_line->data))->line, pattern) != NULL)
-					{
-						if(!isWholeWord(((FileLine*)(current_line->data))->line, found, pattern))
-								addEnd(&containing_result, current_line->data);
-					}
-				}
-				else
-				{
-					if(strstr(toLowerCase(((FileLine*)(current_line->data))->line), toLowerCase(pattern)) == NULL)
-					{
-						addEnd(&containing_result, current_line->data);
-					}
-					else if((found = strstr(toLowerCase(((FileLine*)(current_line->data))->line), toLowerCase(pattern))) != NULL)
+					else if((found = strstr_with(((FileLine*)(current_line->data))->line, pattern,has_i)) != NULL)
 					{
 							if(!isWholeWord(toLowerCase(((FileLine*)(current_line->data))->line), found, pattern))
 								addEnd(&containing_result, current_line->data);
 					}
-				}
 			}
 
 			current_line = current_line->next;

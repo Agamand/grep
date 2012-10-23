@@ -32,7 +32,7 @@ static MemList* memList = (MemList*)0;
 
 #else
 
-#define MALLOC(size,__FILE__,__LINE__) malloc(size)
+#define MALLOC(size) malloc(size)
 #define FREE(ptr) free(ptr)
 
 #endif
